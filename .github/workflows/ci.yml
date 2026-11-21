@@ -36,9 +36,16 @@ jobs:
         working-directory: mern-book-crud/backend
         run: find . -name '*.js' -not -path './node_modules/*' -print0 | xargs -0 -n1 node --check
 
+      - name: Lint backend
+        working-directory: mern-book-crud/backend
+        run: pnpm lint
+
       - name: Lint frontend
         working-directory: mern-book-crud/frontend
         run: pnpm lint
+
+      - name: Check formatting
+        run: pnpm format:check
 
       - name: Build frontend
         working-directory: mern-book-crud/frontend

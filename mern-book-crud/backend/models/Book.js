@@ -4,43 +4,43 @@ const bookSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            required: true
+            required: true,
         },
 
         author: {
             type: String,
-            required: true
+            required: true,
         },
 
         genre: {
             type: String,
-            required: true
+            required: true,
         },
 
         publishedYear: {
             type: Number,
-            required: true
+            required: true,
         },
 
         price: {
             type: Number,
-            required: true
+            required: true,
         },
 
         isbn: {
             type: String,
-            required: true
+            required: true,
         },
 
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
-            required: true
-        }
+            required: true,
+        },
     },
     {
-        timestamps: true
-    }
+        timestamps: true,
+    },
 );
 
 const Book = mongoose.model("Book", bookSchema, "books-lab2");

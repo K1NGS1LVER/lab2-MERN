@@ -1,0 +1,12 @@
+{
+    "name": "lab2-mern",
+    "private": true,
+    "scripts": {
+        "lint": "pnpm --dir mern-book-crud/backend lint && pnpm --dir mern-book-crud/frontend lint",
+        "lint:fix": "pnpm --dir mern-book-crud/backend lint:fix && pnpm --dir mern-book-crud/frontend lint:fix",
+        "format": "pnpm --dir mern-book-crud/backend format && pnpm --dir mern-book-crud/frontend format",
+        "format:check": "pnpm --dir mern-book-crud/backend format:check && pnpm --dir mern-book-crud/frontend format:check",
+        "build": "pnpm --dir mern-book-crud/frontend build",
+        "check": "pnpm lint && pnpm format:check && pnpm build"
+    }
+}

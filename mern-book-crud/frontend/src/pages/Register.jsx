@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { registerUser } from "../services/api";
 
 const Register = () => {
-
     const navigate = useNavigate();
 
     const [serverError, setServerError] = useState("");
@@ -14,60 +13,36 @@ const Register = () => {
         register,
         handleSubmit,
         watch,
-        formState: {
-            errors,
-            isSubmitting
-        }
+        formState: { errors, isSubmitting },
     } = useForm();
-
 
     const password = watch("password");
 
-
     const onSubmit = async (data) => {
-
         try {
-
             setServerError("");
 
             const response = await registerUser({
-
                 name: data.name,
 
                 email: data.email,
 
-                password: data.password
-
+                password: data.password,
             });
 
+            localStorage.setItem("token", response.token);
 
-            localStorage.setItem(
-                "token",
-                response.token
-            );
-
-
-            localStorage.setItem(
-                "user",
-                JSON.stringify(response.user)
-            );
-
+            localStorage.setItem("user", JSON.stringify(response.user));
 
             navigate("/books");
-
         } catch (error) {
-
             setServerError(error.message);
         }
     };
 
-
     return (
-
         <div className="min-h-[90vh] flex items-center justify-center bg-slate-100 p-5">
-
             <div className="bg-white w-full max-w-md p-8 rounded-xl shadow-lg">
-
                 <h1 className="text-3xl font-bold text-center mb-2">
                     Create Account
                 </h1>
@@ -76,28 +51,17 @@ const Register = () => {
                     Register to manage your books
                 </p>
 
-
                 {serverError && (
-
                     <div className="bg-red-100 text-red-700 p-3 rounded-lg mb-4">
                         {serverError}
                     </div>
-
                 )}
 
-
-                <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="space-y-4"
-                >
-
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     {/* NAME */}
 
                     <div>
-
-                        <label className="block font-medium mb-1">
-                            Name
-                        </label>
+                        <label className="block font-medium mb-1">Name</label>
 
                         <input
                             type="text"
@@ -106,15 +70,13 @@ const Register = () => {
                             className="w-full border rounded-lg px-4 py-2"
 
                             {...register("name", {
-
                                 required: "Name is required",
 
                                 minLength: {
                                     value: 3,
                                     message:
-                                        "Name must contain at least 3 characters"
-                                }
-
+                                        "Name must contain at least 3 characters",
+                                },
                             })}
                         />
 
@@ -123,17 +85,12 @@ const Register = () => {
                                 {errors.name.message}
                             </p>
                         )}
-
                     </div>
-
 
                     {/* EMAIL */}
 
                     <div>
-
-                        <label className="block font-medium mb-1">
-                            Email
-                        </label>
+                        <label className="block font-medium mb-1">Email</label>
 
                         <input
                             type="email"
@@ -142,20 +99,13 @@ const Register = () => {
                             className="w-full border rounded-lg px-4 py-2"
 
                             {...register("email", {
-
-                                required:
-                                    "Email is required",
+                                required: "Email is required",
 
                                 pattern: {
+                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
 
-                                    value:
-                                        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-
-                                    message:
-                                        "Enter a valid email"
-
-                                }
-
+                                    message: "Enter a valid email",
+                                },
                             })}
                         />
 
@@ -164,14 +114,11 @@ const Register = () => {
                                 {errors.email.message}
                             </p>
                         )}
-
                     </div>
-
 
                     {/* PASSWORD */}
 
                     <div>
-
                         <label className="block font-medium mb-1">
                             Password
                         </label>
@@ -183,19 +130,14 @@ const Register = () => {
                             className="w-full border rounded-lg px-4 py-2"
 
                             {...register("password", {
-
-                                required:
-                                    "Password is required",
+                                required: "Password is required",
 
                                 minLength: {
-
                                     value: 6,
 
                                     message:
-                                        "Password must be at least 6 characters"
-
-                                }
-
+                                        "Password must be at least 6 characters",
+                                },
                             })}
                         />
 
@@ -204,14 +146,11 @@ const Register = () => {
                                 {errors.password.message}
                             </p>
                         )}
-
                     </div>
-
 
                     {/* CONFIRM PASSWORD */}
 
                     <div>
-
                         <label className="block font-medium mb-1">
                             Confirm Password
                         </label>
@@ -223,14 +162,11 @@ const Register = () => {
                             className="w-full border rounded-lg px-4 py-2"
 
                             {...register("confirmPassword", {
-
-                                required:
-                                    "Please confirm password",
+                                required: "Please confirm password",
 
                                 validate: (value) =>
                                     value === password ||
-                                    "Passwords do not match"
-
+                                    "Passwords do not match",
                             })}
                         />
 
@@ -239,9 +175,7 @@ const Register = () => {
                                 {errors.confirmPassword.message}
                             </p>
                         )}
-
                     </div>
-
 
                     {/* SUBMIT */}
 
@@ -251,31 +185,20 @@ const Register = () => {
 
                         className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 disabled:bg-gray-400"
                     >
-
-                        {isSubmitting
-                            ? "Creating Account..."
-                            : "Register"}
-
+                        {isSubmitting ? "Creating Account..." : "Register"}
                     </button>
-
                 </form>
 
-
                 <p className="text-center mt-6">
-
                     Already have an account?{" "}
-
                     <Link
                         to="/login"
                         className="text-blue-600 font-semibold hover:underline"
                     >
                         Login
                     </Link>
-
                 </p>
-
             </div>
-
         </div>
     );
 };
