@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: Lint, syntax-check and build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: |
+            mern-book-crud/backend/pnpm-lock.yaml
+            mern-book-crud/frontend/pnpm-lock.yaml
+
+      - name: Install backend dependencies
+        working-directory: mern-book-crud/backend
+        run: pnpm install --frozen-lockfile
+
+      - name: Install frontend dependencies
+        working-directory: mern-book-crud/frontend
+        run: pnpm install --frozen-lockfile
+
+      - name: Check backend syntax
+        working-directory: mern-book-crud/backend
+        run: find . -name '*.js' -not -path './node_modules/*' -print0 | xargs -0 -n1 node --check
+
+      - name: Lint frontend
+        working-directory: mern-book-crud/frontend
+        run: pnpm lint
+
+      - name: Build frontend
+        working-directory: mern-book-crud/frontend
+        run: pnpm build
